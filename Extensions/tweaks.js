@@ -1,5 +1,5 @@
 //* TITLE Tweaks **//
-//* VERSION 3.2.8 **//
+//* VERSION 3.3.1 **//
 //* DESCRIPTION Various little tweaks for your dashboard. **//
 //* DEVELOPER STUDIOXENIX **//
 //* DETAILS These are small little tweaks that allows you customize your dashboard. If you have used XKit 6, you will notice that some of the extensions have been moved here as options you can toggle. Keep in mind that some of the tweaks (the ones marked with a '*') can slow down your computer. **//
@@ -154,7 +154,12 @@ XKit.extensions.tweaks = new Object({
 			default: false,
 			value: false
 		},
-		"hide_explore": {
+		"hide_asktime": {
+			text: "Hide the asktime banner at the top of the dash",
+			default: false,
+			value: false
+		},
+        "hide_explore": {
 			text: "Hide explore button on trending posts",
 			default: false,
 			value: false
@@ -411,7 +416,7 @@ XKit.extensions.tweaks = new Object({
 		}
 		
 		if (XKit.extensions.tweaks.preferences.full_width_gifs.value === true) {
-			XKit.interface.add_post_window_listener("tweaks-full-width-gifs", XKit.extensions.tweaks.full_width_gifs_do_first);
+			XKit.interface.post_window_listener.add("tweaks-full-width-gifs", XKit.extensions.tweaks.full_width_gifs_do_first);
 		}
 	
 
@@ -476,7 +481,11 @@ XKit.extensions.tweaks = new Object({
 			XKit.extensions.tweaks.check_for_share_on_private_posts();
 		}
 
-		if (XKit.extensions.tweaks.preferences.hide_explore.value === true) {
+		if (XKit.extensions.tweaks.preferences.hide_asktime.value === true) {
+			XKit.extensions.tweaks.add_css(".notification.single_notification.alt.takeover-container { display: none; } ", "xkit_tweaks_hide_asktime");
+		}
+
+        if (XKit.extensions.tweaks.preferences.hide_explore.value === true) {
 			XKit.extensions.tweaks.add_css(".post .explore-trending-badge-footer { display: none; } ", "xkit_tweaks_hide_explore");
 		}
 
@@ -769,10 +778,14 @@ XKit.extensions.tweaks = new Object({
 	full_width_gifs_do: function(is_checked) {
 		if (!is_checked) {
 			$(".editor-wrapper").find(".tmblr-full").addClass("tweaks-full-width-gifs");
-			$(".editor-wrapper").find(".tmblr-full").children().removeClass("tmblr-full");
+			$(".editor-wrapper").find(".tmblr-full").removeClass("tmblr-full");
+			$(".editor").focus();
+			return;
 		} else {
-			$(".editor-wrapper").find(".tweaks-full-width-gifs").children().addClass("tmblr-full");
-		}
+			$(".editor-wrapper").find(".tweaks-full-width-gifs").addClass("tmblr-full");
+			$(".editor").focus();
+			return;
+		} 
 	},
 
 	destroy: function() {
