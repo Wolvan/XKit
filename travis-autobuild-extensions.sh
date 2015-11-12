@@ -11,6 +11,7 @@ if [ "$TRAVIS_REPO_SLUG" == "$GH_REPO" ] && [ "$TRAVIS_PULL_REQUEST" == "false" 
   git merge master -m "Merge master $TRAVIS_COMMIT"
   gulp build:extensions
   gulp build:themes
+  gulp build:paperboy
   git add Extensions
   git diff --staged --quiet Extensions || {
     git commit -m "Rebuild distribution based on $TRAVIS_COMMIT"
